@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './ToDoApp.css';
+
 let nextToDoId = 0;
 const getVisibleTodos = (
   todos,
@@ -37,7 +39,7 @@ class ToDoApp extends Component {
     );
 
     return (
-      <div>
+      <div className="todoApp">
         <input ref={(node) => {
             /*
              using the ref attribute to link whatever the user types in the input so that we can
@@ -56,24 +58,15 @@ class ToDoApp extends Component {
         }}>
           Add Todo
         </button>
-        <ul>
-          {visibleTodos.map(todo =>
-            <li
-              key={todo.id}
-              onClick={() => {
-                store.dispatch({
-                  type: 'TOGGLE_TODO',
-                  id: todo.id,
-                });
-              }}
-              style={{
-                textDecoration: todo.completed ? 'line-through' : 'none',
-              }}
-            >
-              {todo.text}
-            </li>
-          )}
-        </ul>
+        <TodoList
+          todos={visibleTodos}
+          onTodoClick={id =>
+            store.dispatch({
+              type: 'TOGGLE_TODO',
+              id,
+            })
+          }
+        />
         <p>
           Show:
           {' '}
@@ -108,6 +101,9 @@ class ToDoApp extends Component {
 
 export default ToDoApp;
 
+
+
+
 // Stuff to be moved to other files
 const FilterLink = ({
   store,
@@ -139,3 +135,33 @@ const FilterLink = ({
   );
 };
 
+// Presentational Components
+const Todo = ({
+  onClick,
+  completed,
+  text,
+}) => (
+  <li
+    onClick={onClick}
+    style={{
+      textDecoration: completed ? 'line-through' : 'none',
+    }}
+  >
+    {text}
+  </li>
+);
+
+const TodoList = ({
+  todos,
+  onTodoClick,
+}) => (
+  <ul>
+    {todos.map(todo =>
+      <Todo
+        key={todo.id}
+        {...todo} // this passes the rest of the props of todo (i.e. todo.completed and todo.text) as props to the Todo component
+        onClick={() => onTodoClick(todo.id)}
+      />
+    )}
+  </ul>
+);
