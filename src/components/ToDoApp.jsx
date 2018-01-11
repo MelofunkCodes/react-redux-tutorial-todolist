@@ -40,24 +40,15 @@ class ToDoApp extends Component {
 
     return (
       <div className="todoApp">
-        <input ref={(node) => {
-            /*
-             using the ref attribute to link whatever the user types in the input so that we can
-             then access it with this.input.value
-              */
-            this.input = node;
-          }}
+        <AddTodo
+          onAddClick={text =>
+            store.dispatch({
+              type: 'ADD_TODO',
+              text,
+              id: nextToDoId += 1,
+            })
+          }
         />
-        <button onClick={() => {
-          store.dispatch({
-            type: 'ADD_TODO',
-            text: this.input.value,
-            id: nextToDoId += 1,
-          });
-          this.input.value = ''; // clears the input field after button is clicked
-        }}>
-          Add Todo
-        </button>
         <TodoList
           todos={visibleTodos}
           onTodoClick={id =>
@@ -165,3 +156,27 @@ const TodoList = ({
     )}
   </ul>
 );
+
+const AddTodo = ({
+  onAddClick,
+}) => {
+  let input; // make it a local variable
+  return (
+    <div>
+      <input ref={(node) => {
+        /*
+         using the ref attribute to link whatever the user types in the input so that we can
+         then access it with this.input.value
+          */
+        input = node;
+      }}
+      />
+      <button onClick={() => {
+        onAddClick(input.value);
+        input.value = ''; // clears the input field after button is clicked
+      }}>
+        Add Todo
+      </button>
+    </div>
+  );
+};
