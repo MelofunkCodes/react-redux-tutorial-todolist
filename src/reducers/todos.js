@@ -47,12 +47,11 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
-const todoApp = (state = {}, action) => {
-  return {
-    todos: todos(state.todos, action),
-    visibilityFilter: visibilityFilter(state.visibilityFilter, action),
-  };
-};
+const { combineReducers } = require('redux');
+const todoApp = combineReducers({
+  todos,
+  visibilityFilter,
+});
 
 // export default todos;
 
