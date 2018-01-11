@@ -7,16 +7,16 @@ const todo = (state, action) => {
         text: action.text,
         completed: false,
       };
-    // case 'TOGGLE_TODO':
-    //   return (state.id === action.id) ? { ...state, completed: !state.completed }
-    //     : state;
+    case 'TOGGLE_TODO':
+      return (state.id === action.id) ? { ...state, completed: !state.completed }
+        : state;
     /*
     If getting an error message above with using the spread operator in object literal,
     uncomment out below
     */
-    case 'TOGGLE_TODO':
-      return (state.id === action.id) ? Object.assign({}, state, { completed: !state.completed })
-        : state;
+    // case 'TOGGLE_TODO':
+    //   return (state.id === action.id) ? Object.assign({}, state, { completed: !state.completed })
+    //     : state;
     default:
       return state;
   }
