@@ -80,6 +80,7 @@ class ToDoApp extends Component {
           <FilterLink
             store={store}
             filter='SHOW_ALL'
+            currentFilter={visibilityFilter}
           >
             All
           </FilterLink>
@@ -87,6 +88,7 @@ class ToDoApp extends Component {
           <FilterLink
             store={store}
             filter='SHOW_ACTIVE'
+            currentFilter={visibilityFilter}
           >
             Active
           </FilterLink>
@@ -94,6 +96,7 @@ class ToDoApp extends Component {
           <FilterLink
             store={store}
             filter='SHOW_COMPLETED'
+            currentFilter={visibilityFilter}
           >
             Completed
           </FilterLink>
@@ -109,8 +112,17 @@ export default ToDoApp;
 const FilterLink = ({
   store,
   filter,
+  currentFilter,
   children,
 }) => {
+  /*
+   This condition removes the <a></a> tag styling and just shows the currentFilter with
+   plain text styling
+    */
+  if (filter === currentFilter) {
+    // the children being whatever text is between the <FilterLink></FilterLink> tags
+    return <span>{children}</span>;
+  }
   return (
     <a
       href='#'
