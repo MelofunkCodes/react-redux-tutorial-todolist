@@ -1,4 +1,4 @@
-## React-Redux Tutorial: To Do List
+# React-Redux Tutorial: To Do List
 
 Learning how to use Redux with React by implementing a simple To Do List that allows me to do 3 things:
 1. Add tasks
@@ -13,3 +13,11 @@ For reference, the partially transcribed notes of each of the 30 part videos can
 taiyorbeii's [egghead.io_redux_course_notes](https://github.com/tayiorbeii/egghead.io_redux_course_notes).
 
 And the original complete source code from the tutorial can be found [here](https://redux.js.org/docs/basics/ExampleTodoList.html).
+
+
+## To Run Locally
+
+```bash
+npm install
+npm start
+```
