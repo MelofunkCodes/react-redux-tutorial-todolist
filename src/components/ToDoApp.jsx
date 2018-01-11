@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 
 let nextToDoId = 0;
+const getVisibleTodos = (
+  todos,
+  filter,
+) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos;
+    case 'SHOW_ACTIVE':
+      return todos.filter(t => !t.completed);
+    case 'SHOW_COMPLETED':
+      return todos.filter(t => t.completed);
+    default:
+      return todos;
+  }
+};
 
 class ToDoApp extends Component {
   componentDidMount() {
@@ -15,6 +30,11 @@ class ToDoApp extends Component {
   render() {
     const { store } = this.props;
     const state = store.getState();
+    const { todos, visibilityFilter } = state;
+    const visibleTodos = getVisibleTodos(
+      todos,
+      visibilityFilter,
+    );
 
     return (
       <div>
@@ -37,7 +57,7 @@ class ToDoApp extends Component {
           Add Todo
         </button>
         <ul>
-          {state.todos.map(todo =>
+          {visibleTodos.map(todo =>
             <li
               key={todo.id}
               onClick={() => {
@@ -54,9 +74,56 @@ class ToDoApp extends Component {
             </li>
           )}
         </ul>
+        <p>
+          Show:
+          {' '}
+          <FilterLink
+            store={store}
+            filter='SHOW_ALL'
+          >
+            All
+          </FilterLink>
+          {' '}
+          <FilterLink
+            store={store}
+            filter='SHOW_ACTIVE'
+          >
+            Active
+          </FilterLink>
+          {' '}
+          <FilterLink
+            store={store}
+            filter='SHOW_COMPLETED'
+          >
+            Completed
+          </FilterLink>
+        </p>
       </div>
     );
   }
 }
 
 export default ToDoApp;
+
+// Stuff to be moved to other files
+const FilterLink = ({
+  store,
+  filter,
+  children,
+}) => {
+  return (
+    <a
+      href='#'
+      onClick={(event) => {
+         event.preventDefault();
+         store.dispatch({
+           type: 'SET_VISIBILITY_FILTER',
+           filter,
+         });
+       }}
+    >
+      {children}
+    </a>
+  );
+};
+
