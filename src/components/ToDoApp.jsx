@@ -58,33 +58,16 @@ class ToDoApp extends Component {
             })
           }
         />
-        <p>
-          Show:
-          {' '}
-          <FilterLink
-            store={store}
-            filter='SHOW_ALL'
-            currentFilter={visibilityFilter}
-          >
-            All
-          </FilterLink>
-          {' '}
-          <FilterLink
-            store={store}
-            filter='SHOW_ACTIVE'
-            currentFilter={visibilityFilter}
-          >
-            Active
-          </FilterLink>
-          {' '}
-          <FilterLink
-            store={store}
-            filter='SHOW_COMPLETED'
-            currentFilter={visibilityFilter}
-          >
-            Completed
-          </FilterLink>
-        </p>
+        <Footer
+          store={store}
+          visibilityFilter={visibilityFilter}
+          onFilterClick={filter =>
+            store.dispatch({
+              type: 'SET_VISIBILITY_FILTER',
+              filter,
+            })
+          }
+        />
       </div>
     );
   }
@@ -101,6 +84,7 @@ const FilterLink = ({
   filter,
   currentFilter,
   children,
+  onClick,
 }) => {
   /*
    This condition removes the <a></a> tag styling and just shows the currentFilter with
@@ -115,10 +99,7 @@ const FilterLink = ({
       href='#'
       onClick={(event) => {
          event.preventDefault();
-         store.dispatch({
-           type: 'SET_VISIBILITY_FILTER',
-           filter,
-         });
+         onClick(filter);
        }}
     >
       {children}
@@ -180,3 +161,40 @@ const AddTodo = ({
     </div>
   );
 };
+
+const Footer = ({
+  store,
+  visibilityFilter,
+  onFilterClick,
+}) => (
+  <p>
+    Show:
+    {' '}
+    <FilterLink
+      store={store}
+      filter='SHOW_ALL'
+      currentFilter={visibilityFilter}
+      onClick={onFilterClick}
+    >
+      All
+    </FilterLink>
+    {' '}
+    <FilterLink
+      store={store}
+      filter='SHOW_ACTIVE'
+      currentFilter={visibilityFilter}
+      onClick={onFilterClick}
+    >
+      Active
+    </FilterLink>
+    {' '}
+    <FilterLink
+      store={store}
+      filter='SHOW_COMPLETED'
+      currentFilter={visibilityFilter}
+      onClick={onFilterClick}
+    >
+      Completed
+    </FilterLink>
+  </p>
+);
