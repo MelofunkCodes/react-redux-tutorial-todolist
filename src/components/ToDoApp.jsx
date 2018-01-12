@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import './ToDoApp.css';
+import AddTodo from './AddTodo';
+import TodoList from './TodoList';
 
 let nextToDoId = 0;
 const getVisibleTodos = (
@@ -108,60 +110,6 @@ const FilterLink = ({
 };
 
 // Presentational Components
-const Todo = ({
-  onClick,
-  completed,
-  text,
-}) => (
-  <li
-    onClick={onClick}
-    style={{
-      textDecoration: completed ? 'line-through' : 'none',
-    }}
-  >
-    {text}
-  </li>
-);
-
-const TodoList = ({
-  todos,
-  onTodoClick,
-}) => (
-  <ul>
-    {todos.map(todo =>
-      <Todo
-        key={todo.id}
-        {...todo} // this passes the rest of the props of todo (i.e. todo.completed and todo.text) as props to the Todo component
-        onClick={() => onTodoClick(todo.id)}
-      />
-    )}
-  </ul>
-);
-
-const AddTodo = ({
-  onAddClick,
-}) => {
-  let input; // make it a local variable
-  return (
-    <div>
-      <input ref={(node) => {
-        /*
-         using the ref attribute to link whatever the user types in the input so that we can
-         then access it with this.input.value
-          */
-        input = node;
-      }}
-      />
-      <button onClick={() => {
-        onAddClick(input.value);
-        input.value = ''; // clears the input field after button is clicked
-      }}>
-        Add Todo
-      </button>
-    </div>
-  );
-};
-
 const Footer = ({
   store,
   visibilityFilter,
