@@ -62,13 +62,6 @@ class ToDoApp extends Component {
         />
         <Footer
           store={store}
-          visibilityFilter={visibilityFilter}
-          onFilterClick={filter =>
-            store.dispatch({
-              type: 'SET_VISIBILITY_FILTER',
-              filter,
-            })
-          }
         />
       </div>
     );
@@ -81,10 +74,8 @@ export default ToDoApp;
 
 
 // Stuff to be moved to other files
-const FilterLink = ({
-  store,
-  filter,
-  currentFilter,
+const Link = ({
+  active,
   children,
   onClick,
 }) => {
@@ -92,16 +83,16 @@ const FilterLink = ({
    This condition removes the <a></a> tag styling and just shows the currentFilter with
    plain text styling
     */
-  if (filter === currentFilter) {
+  if (active) {
     // the children being whatever text is between the <FilterLink></FilterLink> tags
     return <span>{children}</span>;
   }
   return (
     <a
-      href='#'
+      href="#"
       onClick={(event) => {
          event.preventDefault();
-         onClick(filter);
+         onClick();
        }}
     >
       {children}
@@ -109,38 +100,73 @@ const FilterLink = ({
   );
 };
 
+
+// Container Components
+
+class FilterLink extends Component {
+  /*
+   Need to subscribe to store changes
+   - So we will move subscription to the store to the React life cycle methods
+   - forceUpdate: forces a re-rendering of the component. This is called anytime the store changes
+    */
+  componentDidMount() {
+    const { store } = this.props;
+
+    // Declaring the unsubscribe function in componentDidMount
+    this.unsubscribe = store.subscribe(() => this.forceUpdate());
+  }
+
+  // important to unsubscribe as well to clean up the subscription
+  componentWillUnmount() {
+    // this is the *return* value of the store.subscribe() method above in componentDidMount
+    this.unsubscribe();
+  }
+
+  render() {
+    const { props } = this;
+    const { store } = props;
+    const state = store.getState();
+
+    return (
+      <Link
+        active={props.filter === state.visibilityFilter}
+        onClick={() =>
+          store.dispatch({
+            type: 'SET_VISIBILITY_FILTER',
+            filter: props.filter,
+          })
+        }
+      >
+        {props.children}
+      </Link>
+    );
+  }
+}
+
 // Presentational Components
 const Footer = ({
   store,
-  visibilityFilter,
-  onFilterClick,
 }) => (
   <p>
     Show:
     {' '}
     <FilterLink
       store={store}
-      filter='SHOW_ALL'
-      currentFilter={visibilityFilter}
-      onClick={onFilterClick}
+      filter="SHOW_ALL"
     >
       All
     </FilterLink>
     {' '}
     <FilterLink
       store={store}
-      filter='SHOW_ACTIVE'
-      currentFilter={visibilityFilter}
-      onClick={onFilterClick}
+      filter="SHOW_ACTIVE"
     >
       Active
     </FilterLink>
     {' '}
     <FilterLink
       store={store}
-      filter='SHOW_COMPLETED'
-      currentFilter={visibilityFilter}
-      onClick={onFilterClick}
+      filter="SHOW_COMPLETED"
     >
       Completed
     </FilterLink>
