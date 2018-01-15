@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import Link from '../components/Link';
+import { setVisibilityFilter } from '../actions/index';
 
 /*
 In this case, we need to compare the filter prop passed to FilterLink from Footer.jsx...
@@ -21,10 +22,7 @@ const mapDispatchToProps = (
   ownProps,
 ) => ({
   onClick: () => {
-    dispatch({
-      type: 'SET_VISIBILITY_FILTER',
-      filter: ownProps.filter,
-    });
+    dispatch(setVisibilityFilter(ownProps.filter));
   },
 });
 

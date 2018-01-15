@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-let nextToDoId = 0;
+import { addTodo } from '../actions/index';
 
 /*
  Changed from const to let. This lets us reassign AddTodo, so the consuming component doesn't need
@@ -22,11 +22,7 @@ let AddTodo = ({ dispatch }) => {
       }}
       />
       <button onClick={() => {
-        dispatch({
-          type: 'ADD_TODO',
-          text: input.value,
-          id: nextToDoId += 1,
-        });
+        dispatch(addTodo(input.value));
         input.value = ''; // clears the input field after button is clicked
       }}
       >
