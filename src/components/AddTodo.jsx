@@ -1,11 +1,10 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 let nextToDoId = 0;
 
-const AddTodo = ({
-  store,
-}) => {
+// Context is received as a second argument after props
+const AddTodo = (props, { store }) => {
   let input; // make it a local variable
 
   return (
@@ -31,6 +30,16 @@ const AddTodo = ({
       </button>
     </div>
   );
+};
+
+/*
+ Need to specify contextTypes to specify which context we want to receive (in this case, store
+ from Provider). Context can be passed down to any level, without having been specified in the
+ parent component. Almost like a wormhole. You just have to opt-in to the context by specifying
+ contextTypes
+  */
+AddTodo.contextTypes = {
+  store: PropTypes.object,
 };
 
 // AddTodo.propTypes = propTypes;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Link from '../components/Link';
 
@@ -9,7 +10,7 @@ class FilterLink extends Component {
    - forceUpdate: forces a re-rendering of the component. This is called anytime the store changes
     */
   componentDidMount() {
-    const { store } = this.props;
+    const { store } = this.context;
 
     // Declaring the unsubscribe function in componentDidMount
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
@@ -23,7 +24,7 @@ class FilterLink extends Component {
 
   render() {
     const { props } = this;
-    const { store } = props;
+    const { store } = this.context;
     const state = store.getState();
 
     return (
@@ -41,5 +42,9 @@ class FilterLink extends Component {
     );
   }
 }
+
+FilterLink.contextTypes = {
+  store: PropTypes.object,
+};
 
 export default FilterLink;

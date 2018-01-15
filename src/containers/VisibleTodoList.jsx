@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import TodoList from '../components/TodoList';
 
@@ -21,7 +22,7 @@ const getVisibleTodos = (
 
 class VisibleTodoList extends Component {
   componentDidMount() {
-    const { store } = this.props;
+    const { store } = this.context;
 
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
   }
@@ -31,8 +32,7 @@ class VisibleTodoList extends Component {
   }
 
   render() {
-    const { props } = this;
-    const { store } = props;
+    const { store } = this.context;
     const state = store.getState();
 
     return (
@@ -50,5 +50,13 @@ class VisibleTodoList extends Component {
     );
   }
 }
+
+/*
+ * Context is opt-in for all components, so we have to specify contextTypes. If you don't do this,
+ * the component will not receive the relevant context, so essential to declare!
+ */
+VisibleTodoList.contextTypes = {
+  store: PropTypes.object,
+};
 
 export default VisibleTodoList;
