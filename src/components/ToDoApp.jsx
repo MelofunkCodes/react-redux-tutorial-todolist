@@ -21,33 +21,20 @@ const getVisibleTodos = (
   }
 };
 
-class ToDoApp extends Component {
-  componentDidMount() {
-    const { store } = this.props;
-    this.unsubscribe = store.subscribe(() => this.forceUpdate());
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    const { store } = this.props;
-
-    return (
-      <div className="todoApp">
-        <AddTodo
-          store={store}
-        />
-        <VisibleTodoList
-          store={store}
-        />
-        <Footer
-          store={store}
-        />
-      </div>
-    );
-  }
+const ToDoApp = ({ store }) => {
+  return (
+    <div className="todoApp">
+      <AddTodo
+        store={store}
+      />
+      <VisibleTodoList
+        store={store}
+      />
+      <Footer
+        store={store}
+      />
+    </div>
+  );
 }
 
 export default ToDoApp;
