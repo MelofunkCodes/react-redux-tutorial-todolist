@@ -6,17 +6,11 @@ import VisibleTodoList from '../containers/VisibleTodoList';
 import Footer from './Footer';
 
 
-const ToDoApp = ({ store }) => (
+const ToDoApp = () => (
   <div className="todoApp">
-    <AddTodo
-      store={store}
-    />
-    <VisibleTodoList
-      store={store}
-    />
-    <Footer
-      store={store}
-    />
+    <AddTodo />
+    <VisibleTodoList />
+    <Footer />
   </div>
 );
 
