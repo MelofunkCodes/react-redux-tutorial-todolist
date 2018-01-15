@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import TodoList from '../components/TodoList';
 
@@ -20,43 +19,51 @@ const getVisibleTodos = (
   }
 };
 
-class VisibleTodoList extends Component {
-  componentDidMount() {
-    const { store } = this.context;
+/*
+mapStateToProps takes the Redux store's state, and returns the props that we need to pass to the
+presentational TodoList component so it can be rendered with the current state.
 
-    this.unsubscribe = store.subscribe(() => this.forceUpdate());
-  }
+This returns the props that depend on the current state of the Redux store, which in this case is
+just the todos.
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    const { store } = this.context;
-    const state = store.getState();
-
-    return (
-      <TodoList
-        todos={getVisibleTodos(
-          state.todos,
-          state.visibilityFilter,
-        )}
-        onTodoClick={id => store.dispatch({
-          type: 'TOGGLE_TODO',
-          id,
-        })
-        }
-      />
-    );
-  }
-}
+These props will be updated any time the state changes.
+ */
+const mapStateToProps = (state) => {
+  return {
+    todos: getVisibleTodos(
+      state.todos,
+      state.visibilityFilter,
+    ),
+  };
+};
 
 /*
- * Context is opt-in for all components, so we have to specify contextTypes. If you don't do this,
- * the component will not receive the relevant context, so essential to declare!
+mapDispatchToProps accepts the dispatch() from store as its only argument. It returns the props
+that should be passed to TodoList that depend on the dispatch() method. So it returns the callback
+props needed by the presentational component.
+
+Note that we don't need the reference to store anymore, and can just change store.dispatch() to
+dispatch(), which is provided as an argument in mapDispatchToProps.
  */
-VisibleTodoList.contextTypes = {
-  store: PropTypes.object,
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTodoClick: (id) => {
+      dispatch({
+        type: 'TOGGLE_TODO',
+        id,
+      });
+    },
+  };
 };
+
+/*
+This replaces the original VisibleTodoList class. This is a curried function, so we must call it
+again, and pass it the presentational component that we want it to wrap and pass the props, thereby
+connecting to the redux store (in this case, TodoList).
+ */
+const VisibleTodoList = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TodoList);
 
 export default VisibleTodoList;
