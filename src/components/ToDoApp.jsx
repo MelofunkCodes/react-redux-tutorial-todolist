@@ -51,14 +51,8 @@ class ToDoApp extends Component {
             })
           }
         />
-        <TodoList
-          todos={visibleTodos}
-          onTodoClick={id =>
-            store.dispatch({
-              type: 'TOGGLE_TODO',
-              id,
-            })
-          }
+        <VisibleTodoList
+          store={store}
         />
         <Footer
           store={store}
@@ -139,6 +133,38 @@ class FilterLink extends Component {
       >
         {props.children}
       </Link>
+    );
+  }
+}
+
+class VisibleTodoList extends Component {
+  componentDidMount() {
+    const { store } = this.props;
+
+    this.unsubscribe = store.subscribe(() => this.forceUpdate());
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  render() {
+    const { props } = this;
+    const { store } = props;
+    const state = store.getState();
+
+    return (
+      <TodoList
+        todos={getVisibleTodos(
+          state.todos,
+          state.visibilityFilter,
+        )}
+        onTodoClick={id => store.dispatch({
+          type: 'TOGGLE_TODO',
+          id,
+        })
+        }
+      />
     );
   }
 }
