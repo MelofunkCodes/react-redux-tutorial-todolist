@@ -1,5 +1,7 @@
 # React-Redux Tutorial: To Do List
 
+To see the veryyyy simple demo: https://melofunkcodes.github.io/react-redux-tutorial-todolist/
+ 
 Learning how to use Redux with React by implementing a simple To Do List that allows me to do 3 things:
 1. Add tasks
 2. Toggle them completed or not 
