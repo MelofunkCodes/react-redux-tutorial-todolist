@@ -1,4 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+const propTypes = {
+  active: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 const Link = ({
   active,
@@ -25,5 +32,7 @@ const Link = ({
     </a>
   );
 };
+
+Link.propTypes = propTypes;
 
 export default Link;
