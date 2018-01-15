@@ -12,25 +12,21 @@ props. not the props passed to the child, which is the return value of mapStateT
 const mapStateToProps = (
   state,
   ownProps,
-) => {
-  return {
-    active: ownProps.filter === state.visibilityFilter,
-  };
-};
+) => ({
+  active: ownProps.filter === state.visibilityFilter,
+});
 
 const mapDispatchToProps = (
   dispatch,
   ownProps,
-) => {
-  return {
-    onClick: () => {
-      dispatch({
-        type: 'SET_VISIBILITY_FILTER',
-        filter: ownProps.filter,
-      });
-    },
-  };
-};
+) => ({
+  onClick: () => {
+    dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter: ownProps.filter,
+    });
+  },
+});
 
 const FilterLink = connect(
   mapStateToProps,

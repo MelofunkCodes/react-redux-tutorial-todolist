@@ -28,14 +28,12 @@ just the todos.
 
 These props will be updated any time the state changes.
  */
-const mapStateToProps = (state) => {
-  return {
-    todos: getVisibleTodos(
-      state.todos,
-      state.visibilityFilter,
-    ),
-  };
-};
+const mapStateToProps = state => ({
+  todos: getVisibleTodos(
+    state.todos,
+    state.visibilityFilter,
+  ),
+});
 
 /*
 mapDispatchToProps accepts the dispatch() from store as its only argument. It returns the props
@@ -45,16 +43,14 @@ props needed by the presentational component.
 Note that we don't need the reference to store anymore, and can just change store.dispatch() to
 dispatch(), which is provided as an argument in mapDispatchToProps.
  */
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onTodoClick: (id) => {
-      dispatch({
-        type: 'TOGGLE_TODO',
-        id,
-      });
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onTodoClick: (id) => {
+    dispatch({
+      type: 'TOGGLE_TODO',
+      id,
+    });
+  },
+});
 
 /*
 This replaces the original VisibleTodoList class. This is a curried function, so we must call it
