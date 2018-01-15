@@ -4,7 +4,7 @@ import './ToDoApp.css';
 import AddTodo from './AddTodo';
 import TodoList from './TodoList';
 
-let nextToDoId = 0;
+
 const getVisibleTodos = (
   todos,
   filter,
@@ -33,23 +33,11 @@ class ToDoApp extends Component {
 
   render() {
     const { store } = this.props;
-    const state = store.getState();
-    const { todos, visibilityFilter } = state;
-    const visibleTodos = getVisibleTodos(
-      todos,
-      visibilityFilter,
-    );
 
     return (
       <div className="todoApp">
         <AddTodo
-          onAddClick={text =>
-            store.dispatch({
-              type: 'ADD_TODO',
-              text,
-              id: nextToDoId += 1,
-            })
-          }
+          store={store}
         />
         <VisibleTodoList
           store={store}

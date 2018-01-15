@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-const propTypes = {
-  onAddClick: PropTypes.func.isRequired,
-};
+let nextToDoId = 0;
 
 const AddTodo = ({
-  onAddClick,
+  store,
 }) => {
   let input; // make it a local variable
+
   return (
     <div>
       <input ref={(node) => {
@@ -20,7 +19,11 @@ const AddTodo = ({
       }}
       />
       <button onClick={() => {
-        onAddClick(input.value);
+        store.dispatch({
+          type: 'ADD_TODO',
+          text: input.value,
+          id: nextToDoId += 1,
+        });
         input.value = ''; // clears the input field after button is clicked
       }}
       >
@@ -30,6 +33,6 @@ const AddTodo = ({
   );
 };
 
-AddTodo.propTypes = propTypes;
+// AddTodo.propTypes = propTypes;
 
 export default AddTodo;
