@@ -21,3 +21,6 @@ And the original complete source code from the tutorial can be found [here](http
 npm install
 npm start
 ```
+
+## Testing
+The testing of the todos reducer from [video 11](https://github.com/tayiorbeii/egghead.io_redux_course_notes/blob/master/07-Writing_a_Todo_List_Reducer.md) was added to `App.test.js`. Just run `npm test` in your terminal to run the tests locally.

@@ -10,7 +10,7 @@ it('renders without crashing', () => {
   ReactDOM.render(<App />, div);
 });
 
-
+// Testing todos reducer
 it('Adds a todo', () => {
 
   const stateBefore = [];
